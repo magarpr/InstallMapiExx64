@@ -1,54 +1,72 @@
-﻿using System.IO;
-using System;
+﻿using System;
+using System.IO;
 
 namespace InstallMapiExx64
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void CopyFile(string source, string target)
         {
-            if (!(Directory.Exists(Config.x64BaseDir))) 
+            try
             {
-                Console.WriteLine("Unable to locate source directory - {0}. Exiting...", Config.x64BaseDir);
-                Environment.Exit(1);
+                Console.WriteLine("Copying {0} to {1}...", source, target);
+                File.Copy(source, target, true);
             }
-
-            if (!(Directory.Exists(Config.x86BaseDir)))
+            catch (Exception e)
             {
-                Console.WriteLine("Unable to locate target directory - {0}. Exiting...", Config.x86BaseDir);
-                Environment.Exit(1);
+                Console.WriteLine("\nError copying {0} to {1} - {2}\n", source, target, e.Message);
             }
+        }
 
-            if (!(Directory.Exists(Config.vboTarget)))
+        private static void Main()
+        {
+            if (!(Directory.Exists(Config.DestinationDirectory)))
+            {
+                Console.Write("\nUnable to locate source directory - {0}. ", Config.DestinationDirectory);
+                Environment.ExitCode = 1;
+            }
+            if (!(Directory.Exists(Config.SourceDirectory)) && (Environment.ExitCode == 0))
+            {
+                Console.Write("\nUnable to locate target directory - {0}. ", Config.SourceDirectory);
+                Environment.ExitCode = 1;
+            }
+            if (!(Directory.Exists(Config.VboTargetDirectory)) && (Environment.ExitCode == 0))
             {
                 try
                 {
                     Console.WriteLine("Unable to find target VBO directory. Attempting to create...");
-                    Directory.CreateDirectory(Config.vboTarget);
-                    CopyFileHelper.CopyFile(Config.mapiexVBOSource, Config.mapiexVBOTarget);
+                    Directory.CreateDirectory(Config.VboTargetDirectory);
+                    Console.WriteLine("Target VBO Directory created successfully.");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Unable to create directory {0} - {1}", Config.vboTarget, e.Message);
-                    Environment.Exit(1);
+                    Console.Write("\nError creating target VBO directory {0} - {1}. ", Config.VboTargetDirectory, e.Message);
+                    Environment.ExitCode = 1;
                 }
             }
-
+            if (Environment.ExitCode != 0)
+            {
+                Console.WriteLine("Exiting...\n");
+                Environment.Exit(Environment.ExitCode);
+            }
             try
             {
-                CopyFileHelper.CopyFile(Config.mapi32DLLSource, Config.mapi32DLLTarget);
-                CopyFileHelper.CopyFile(Config.mapiexDLLSource, Config.mapiexDLLTarget);
-                CopyFileHelper.CopyFile(Config.mapiexAutomationDLLSource, Config.mapiexAutomationDLLTarget);
-                CopyFileHelper.CopyFile(Config.mapiexAutomationTLBSource, Config.mapiexAutomationTLBTarget);
-                CopyFileHelper.CopyFile(Config.MapiExHelpSource, Config.MapiExHelpTarget);
-                CopyFileHelper.CopyFile(Config.mapiexVBOSource, Config.mapiexVBOTarget);
+                CopyFile(Config.Mapi32DllSource, Config.Mapi32DllTarget);
+                CopyFile(Config.MapiexDllSource, Config.MapiexDllTarget);
+                CopyFile(Config.MapiexAutomationDllSource, Config.MapiexAutomationDllTarget);
+                CopyFile(Config.MapiexAutomationTlbSource, Config.MapiexAutomationTlbTarget);
+                CopyFile(Config.MapiExHelpSource, Config.MapiExHelpTarget);
+                CopyFile(Config.MapiexVboSource, Config.MapiexVboTarget);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Error encountered - {0}", e.Message);
-                Environment.Exit(1);
+                Environment.ExitCode = 1;
             }
-            Environment.Exit(0);
+            finally
+            {
+                Environment.Exit(Environment.ExitCode);
+            }
         }
     }
 }
