@@ -22,15 +22,17 @@ namespace InstallMapiExx64
         {
             if (!(Directory.Exists(Config.DestinationDirectory)))
             {
-                Console.Write("\nUnable to locate source directory - {0}. ", Config.DestinationDirectory);
+                Console.Write("\nUnable to locate source directory - {0}. Exiting...", Config.DestinationDirectory);
                 Environment.ExitCode = 1;
+                Environment.Exit(Environment.ExitCode);
             }
-            if (!(Directory.Exists(Config.SourceDirectory)) && (Environment.ExitCode == 0))
+            if (!(Directory.Exists(Config.SourceDirectory)))
             {
-                Console.Write("\nUnable to locate target directory - {0}. ", Config.SourceDirectory);
+                Console.Write("\nUnable to locate target directory - {0}. Exiting...", Config.SourceDirectory);
                 Environment.ExitCode = 1;
+                Environment.Exit(Environment.ExitCode);
             }
-            if (!(Directory.Exists(Config.VboTargetDirectory)) && (Environment.ExitCode == 0))
+            if (!(Directory.Exists(Config.VboTargetDirectory)))
             {
                 try
                 {
@@ -40,15 +42,12 @@ namespace InstallMapiExx64
                 }
                 catch (Exception e)
                 {
-                    Console.Write("\nError creating target VBO directory {0} - {1}. ", Config.VboTargetDirectory, e.Message);
+                    Console.Write("\nError creating target VBO directory {0} - {1}. Exiting...", Config.VboTargetDirectory, e.Message);
                     Environment.ExitCode = 1;
+                    Environment.Exit(Environment.ExitCode);
                 }
             }
-            if (Environment.ExitCode != 0)
-            {
-                Console.WriteLine("Exiting...\n");
-                Environment.Exit(Environment.ExitCode);
-            }
+
             try
             {
                 CopyFile(Config.Mapi32DllSource, Config.Mapi32DllTarget);
@@ -60,8 +59,9 @@ namespace InstallMapiExx64
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error encountered - {0}", e.Message);
+                Console.WriteLine("Error encountered - {0}. Exiting...", e.Message);
                 Environment.ExitCode = 1;
+                Environment.Exit(Environment.ExitCode);
             }
             finally
             {
