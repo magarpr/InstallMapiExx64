@@ -50,12 +50,10 @@ namespace InstallMapiExx64
 
             try
             {
-                CopyFile(Config.Mapi32DllSource, Config.Mapi32DllTarget);
-                CopyFile(Config.MapiexDllSource, Config.MapiexDllTarget);
-                CopyFile(Config.MapiexAutomationDllSource, Config.MapiexAutomationDllTarget);
-                CopyFile(Config.MapiexAutomationTlbSource, Config.MapiexAutomationTlbTarget);
-                CopyFile(Config.MapiExHelpSource, Config.MapiExHelpTarget);
-                CopyFile(Config.MapiexVboSource, Config.MapiexVboTarget);
+                foreach (Tuple<string, string> tuple in Config.ListFile)
+                {
+                    CopyFile(tuple.Item1, tuple.Item2);
+                }
             }
             catch (Exception e)
             {
