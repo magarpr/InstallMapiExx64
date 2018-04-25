@@ -7,15 +7,8 @@ namespace InstallMapiExx64
     {
         private static void CopyFile(string source, string target)
         {
-            try
-            {
                 Console.WriteLine($"Copying {source} to {target}...");
                 File.Copy(source, target, true);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"\nError copying {source} to {target} - {e.Message}\n");
-            }
         }
 
         private static void Main()
