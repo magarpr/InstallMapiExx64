@@ -3,7 +3,7 @@ using System.IO;
 
 namespace InstallMapiExx64
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main()
         {

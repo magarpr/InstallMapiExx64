@@ -5,23 +5,19 @@ namespace InstallMapiExx64
 {
     internal class FileCopy
     {
+        private bool Overwrite { get; set; }
         private string _sourceDirectory;
         private string _targetDirectory;
-
         private string SourceDirectory
         {
             get => _sourceDirectory;
             set => _sourceDirectory = ValidateDirectory(value);
         }
-
         private string TargetDirectory
         {
             get => _targetDirectory;
             set => _targetDirectory = ValidateDirectory(value);
         }
-
-        private bool Overwrite { get; set; }
-
         private static string ValidateDirectory(string directory)
         {
             if (Directory.Exists(directory))
@@ -40,7 +36,7 @@ namespace InstallMapiExx64
         public void CopyFile(string filename)
         {
             var fqSource = String.Concat(this.SourceDirectory, filename);
-            string fqTarget = String.Concat(this.TargetDirectory, filename);
+            var fqTarget = String.Concat(this.TargetDirectory, filename);
             File.Copy(fqSource, fqTarget, this.Overwrite);
         }
     }
