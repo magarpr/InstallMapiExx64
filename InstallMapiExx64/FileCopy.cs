@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace InstallMapiExx64
 {
     internal class FileCopy
     {
-        private bool Overwrite { get; set; }
+        private bool Overwrite { get; }
         private string _sourceDirectory;
         private string _targetDirectory;
         private string SourceDirectory
@@ -35,9 +34,9 @@ namespace InstallMapiExx64
         }
         public void CopyFile(string filename)
         {
-            var fqSource = String.Concat(this.SourceDirectory, filename);
-            var fqTarget = String.Concat(this.TargetDirectory, filename);
-            File.Copy(fqSource, fqTarget, this.Overwrite);
+            var fqSource = string.Concat(SourceDirectory, filename);
+            var fqTarget = string.Concat(TargetDirectory, filename);
+            File.Copy(fqSource, fqTarget, Overwrite);
         }
     }
 }

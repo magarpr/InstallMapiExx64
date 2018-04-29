@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace InstallMapiExx64
 {
-    internal class Config
+    internal static class Config
     {
         public const string DestinationDirectory = @"C:\Program Files\Blue Prism Limited\Blue Prism Automate\";
         public const string SourceDirectory = @"C:\Program Files (x86)\Blue Prism Limited\Blue Prism Automate\";
@@ -15,11 +14,9 @@ namespace InstallMapiExx64
         private const string MapiExHelpFilename = "BPMapiEx.chm";
 
 
-        private static readonly string VboSourceDirectory = String.Concat(SourceDirectory, @"VBO\");
-        public static readonly string VboTargetDirectory = String.Concat(DestinationDirectory, @"VBO\");
         private const string MapiexVboFilename = @"VBO\BPA Object - Blue Prism MAPIEx.xml";
 
-        public static readonly List<String> ListFile = new List<String>
+        public static readonly List<string> ListFile = new List<string>
         {
             MapiexDllFilename,
             MapiexAutomationDllFilename,
